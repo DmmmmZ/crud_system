@@ -56,23 +56,21 @@ $(document).ready(function (e) {
       return;
     }
 
-    function sendUsersAction(users, action) {
-      $.ajax({
-        type: "POST",
-        url: "includes/select_action.php",
-        data: {
+    $.ajax({
+      type: "POST",
+      url: 'includes/select_action.php',
+      data: {
           'action_click_btn': true,
-          'user_id': users,
+          'user_id': selectUsers,
           'operation': action,
-        },
-        success: function (response) {
+      },
+      success: function(response) {
           if (response.status) {
-            getUserData();
+              getUserData();
           }
-        },
-      });
-    }
-    sendUsersAction(selectUsers, action);
+      }
+    });
+
   });
   // select delte users
   $(document).on("click", ".actionDeleteUser", function (e) {
