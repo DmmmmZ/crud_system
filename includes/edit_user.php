@@ -7,8 +7,8 @@ if (isset($_POST['click_edit_btn'])) {
 
     $edit_user = mysqli_query($db, "SELECT * FROM users WHERE id ='$user_id'");
     $result_array = [];
-    if (mysqli_num_rows($edit) > 0) {
-        foreach ($edit as $row) {
+    if (mysqli_num_rows($edit_user) > 0) {
+        foreach ($edit_user as $row) {
             array_push($result_array, $row);
         }
         header('Content-type: application/json');
