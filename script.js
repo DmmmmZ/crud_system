@@ -33,11 +33,9 @@ $(document).ready(function (e) {
     if (!selectedUsers.length && !action) {
       $('.warningMessage').text('Please, select users and action');
       $('#warningModal').modal('show');
-        //alert("Please, select users and action");
         return;
     }
     if (!selectedUsers.length) {
-      //alert("Please, select users");
       $('.warningMessage').text('Please, select users');
       $('#warningModal').modal('show');
       return;
@@ -45,7 +43,6 @@ $(document).ready(function (e) {
     if (!action) {
       $('.warningMessage').text('Please, select action');
       $('#warningModal').modal('show');
-      //alert("Please, select action");
       return;
     }
 
@@ -60,7 +57,6 @@ $(document).ready(function (e) {
         success: function(response) {
             if (response.status) {
                 getUserData();
-                //$("#selectBox").val("default");
             } else {
                 alert("Помилка: " + response.error.message);
             }
