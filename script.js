@@ -27,49 +27,69 @@ $(document).ready(function (e) {
         return $(this).val();
     }).get();
 
-    //let action = $(".selectBox").val();
     let action = $(this).closest("div").find(".selectBox").val();
 
     if (!selectUsers.length && !action) {
-      $('.warningMessage').text('Please, select users and action');
-      $('#warningModal').modal('show');
+        $('.warningMessage').text('Please, select users and action');
+        $('#warningModal').modal('show');
         return;
     }
     if (!selectUsers.length) {
-      $('.warningMessage').text('Please, select users');
-      $('#warningModal').modal('show');
-      return;
+        $('.warningMessage').text('Please, select users');
+        $('#warningModal').modal('show');
+        return;
     }
     if (!action) {
-      $('.warningMessage').text('Please, select action');
-      $('#warningModal').modal('show');
-      return;
+        $('.warningMessage').text('Please, select action');
+        $('#warningModal').modal('show');
+        return;
     }
 
-    if(action === 'delete') {
-      $('.warningdeleteMessage').text('Are you sure you want to delete this user(s) ?');
-      $("#deleteModal").modal("show");
+    if (action === 'delete') {
+        $('.warningdeleteMessage').text('Are you sure you want to delete this user(s)?');
+        $("#deleteModal").modal("show");
 
-      $(".actiondeleteUser").addClass("applySelectAction");
+        $(".actiondeleteUser").data("users", selectUsers);
+        return;
     }
+    function sendUsersAction(users, action) {
+      $.ajax({
+          type: "POST",
+          url: 'includes/select_action.php',
+          data: {
+              'action_click_btn': true,
+              'user_id': users,
+              'operation': action,
+          },
+          success: function(response) {
+              if (response.status) {
+                  getUserData();
+              }
+          }
+      });
+  }
+    sendUsersAction(selectUsers, action);
+});
+
+$(document).on("click", ".actiondeleteUser", function () {
+    let usersToDelete = $(this).data("users");
 
     $.ajax({
         type: "POST",
-        url: 'includes/select_action.php', 
+        url: 'includes/select_action.php',
         data: {
             'action_click_btn': true,
-            'user_id': selectUsers,
-            'operation': action,
+            'user_id': usersToDelete,
+            'operation': 'delete',
         },
         success: function(response) {
-            if (response.status) {       
+            if (response.status) {
+                $("#deleteModal").modal("hide");
                 getUserData();
             }
         }
     });
 });
-
-
 
   // add user
   $(document).on("click", ".add_user_data", function (e) {
