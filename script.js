@@ -204,8 +204,7 @@ function getUserData() {
               <td>
                   <input type="checkbox" class="user_check" value="${value["id"]}">
               </td>
-              <td>${value["firstname"]}</td>
-              <td>${value["lastname"]}</td>
+              <td>${value["firstname"]} ${value["lastname"]}</td>
               <td><span class="status-dot ${value["status"]}">●</span></td>
               <td>${value["role"]}</td>
               <td>

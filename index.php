@@ -29,9 +29,8 @@
                     <div class="card-header form-group">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-8"><button type="button" class="btn btn-primary addUser">
-                                        Add
-                                    </button>
+                                <div class="col-md-8">
+                                    <button type="button" class="btn btn-primary addUser">Add</button>
                                 </div>
                                 <div class="col-6 col-md-4">
                                     <form>
@@ -55,8 +54,7 @@
                                         <th scope="col">
                                             <input type="checkbox" class="check_all" onchange="checkAll(this)">
                                         </th>
-                                        <th scope="col">First Name</th>
-                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Name</th>
                                         <th scope="col">Status</th>
                                         <th scope="col">Role</th>
                                         <th scope="col">Option</th>
@@ -65,6 +63,27 @@
                                 <tbody class="user_data"></tbody>
                             </table>
                         </div>
+                        <!-- <div class="container my-4">
+                            <div class="row">
+                                <div class="col-md-8"><button type="button" class="btn btn-primary addUser">
+                                        Add
+                                    </button>
+                                </div>
+                                <div class="col-6 col-md-4">
+                                    <form>
+                                        <div class="input-group mb-3">
+                                            <select class="form-select d-inline w-auto" id="selectBox">
+                                                <option value="default">--Please Select--</option>
+                                                <option value="set_active">Set active</option>
+                                                <option value="set_not_active">Set not active</option>
+                                                <option value="delete">Delete</option>
+                                            </select>
+                                            <button class="btn btn-success col-2 applySelectAction">OK</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
