@@ -25,7 +25,7 @@ if (isset($_POST["add_user_btn"])) {
     }
 
     if (empty($error_firstname) && empty($error_lastname) && empty($error_role)) {
-        if($create = mysqli_query($db,"INSERT INTO users (firstname, lastname, status, role) VALUES ('$firstname', '$lastname', '$status', '$role')")){
+        if($add_user = mysqli_query($db,"INSERT INTO users (firstname, lastname, status, role) VALUES ('$firstname', '$lastname', '$status', '$role')")){
             $success = true;
         }
     }

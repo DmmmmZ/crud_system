@@ -20,7 +20,7 @@ if (isset($_POST["update_user_btn"])) {
     }
 
     if (empty($error_firstname) && empty($error_lastname)) {
-        if($update = mysqli_query($db,"UPDATE users SET firstname = '$firstname', lastname = '$lastname', status = '$status', role = '$role' WHERE id = '$user_id'")){
+        if($update_user = mysqli_query($db,"UPDATE users SET firstname = '$firstname', lastname = '$lastname', status = '$status', role = '$role' WHERE id = '$user_id'")){
             $success = true;
         }
     }
