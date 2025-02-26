@@ -29,14 +29,11 @@
                     <div class="card-header form-group">
                         <div class="container">
                             <div class="row">
-                                <div class="col-md-8">
-                                    <button type="button" class="btn btn-primary addUser">Add</button>
-                                </div>
                                 <div class="col-6 col-md-4">
                                     <form>
                                         <div class="input-group mb-3">
-                                            <select class="form-select d-inline w-auto" id="selectBox">
-                                                <option value="default">--Please Select--</option>
+                                            <select class="form-select d-inline w-auto selectBox">
+                                                <option value="">--Please Select--</option>
                                                 <option value="set_active">Set active</option>
                                                 <option value="set_not_active">Set not active</option>
                                                 <option value="delete">Delete</option>
@@ -44,6 +41,9 @@
                                             <button class="btn btn-success col-2 applySelectAction">OK</button>
                                         </div>
                                     </form>
+                                </div>
+                                <div class="col-md-8">
+                                    <button type="button" class="btn btn-primary float-end addUser">Add User</button>
                                 </div>
                             </div>
                         </div>
@@ -63,17 +63,13 @@
                                 <tbody class="user_data"></tbody>
                             </table>
                         </div>
-                        <!-- <div class="container my-4">
+                        <div class="container my-4">
                             <div class="row">
-                                <div class="col-md-8"><button type="button" class="btn btn-primary addUser">
-                                        Add
-                                    </button>
-                                </div>
                                 <div class="col-6 col-md-4">
                                     <form>
                                         <div class="input-group mb-3">
-                                            <select class="form-select d-inline w-auto" id="selectBox">
-                                                <option value="default">--Please Select--</option>
+                                            <select class="form-select d-inline w-auto selectBox">
+                                                <option value="">--Please Select--</option>
                                                 <option value="set_active">Set active</option>
                                                 <option value="set_not_active">Set not active</option>
                                                 <option value="delete">Delete</option>
@@ -82,8 +78,11 @@
                                         </div>
                                     </form>
                                 </div>
+                                <div class="col-md-8">
+                                    <button type="button" class="btn btn-primary float-end addUser">Add User</button>
+                                </div>
                             </div>
-                        </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -118,7 +117,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <label for="exampleRole">Role</label>
-                            <select class="form-control role" id="clearInput">
+                            <select class="form-select role" id="clearInput">
                                 <option>admin</option>
                                 <option>user</option>
                             </select>
@@ -154,6 +153,23 @@
         </div>
     </div>
 
+    <!-- Action Warning Modal -->
+    <div class="modal fade" id="warningModal" tabindex="-1" aria-labelledby="warningModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="warningModalLabel">Warning</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="warningMessage"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -164,4 +180,5 @@
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
+
 </html>

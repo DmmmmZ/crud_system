@@ -27,18 +27,25 @@ $(document).ready(function (e) {
         return $(this).val();
     }).get();
 
-    let action = $("#selectBox").val();
+    //let action = $(".selectBox").val();
+    let action = $(this).closest("div").find(".selectBox").val();
 
     if (!selectedUsers.length && !action) {
-        alert("Please, select users and action");
+      $('.warningMessage').text('Please, select users and action');
+      $('#warningModal').modal('show');
+        //alert("Please, select users and action");
         return;
     }
     if (!selectedUsers.length) {
-      alert("Please, select users");
+      //alert("Please, select users");
+      $('.warningMessage').text('Please, select users');
+      $('#warningModal').modal('show');
       return;
     }
     if (!action) {
-      alert("Please, select action");
+      $('.warningMessage').text('Please, select action');
+      $('#warningModal').modal('show');
+      //alert("Please, select action");
       return;
     }
 
