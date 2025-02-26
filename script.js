@@ -49,11 +49,11 @@ $(document).ready(function (e) {
 
     if (action === "delete") {
       $(".warningdeleteMessage").text(
-        "Are you sure you want to delete this user(s)?"
+        "Are you sure you want to delete this user(s) ?"
       );
       $("#deleteModal").modal("show");
 
-      $(".actiondeleteUser").data("users", selectUsers);
+      $(".actionDeleteUser").data("users", selectUsers);
       return;
     }
     function sendUsersAction(users, action) {
@@ -75,7 +75,7 @@ $(document).ready(function (e) {
     sendUsersAction(selectUsers, action);
   });
   // select delte users
-  $(document).on("click", ".actiondeleteUser", function () {
+  $(document).on("click", ".actionDeleteUser", function () {
     let usersToDelete = $(this).data("users");
 
     $.ajax({
