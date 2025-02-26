@@ -20,22 +20,22 @@ $(document).ready(function (e) {
   });
 
   // select action for user
-  $(".applySelectAction").click(function (e) {
+  $(document).on("click", ".applySelectAction", function (e) {
     e.preventDefault();
 
-    let selectedUsers = $(".user_check:checked").map(function () {
+    let selectUsers = $(".user_check:checked").map(function () {
         return $(this).val();
     }).get();
 
     //let action = $(".selectBox").val();
     let action = $(this).closest("div").find(".selectBox").val();
 
-    if (!selectedUsers.length && !action) {
+    if (!selectUsers.length && !action) {
       $('.warningMessage').text('Please, select users and action');
       $('#warningModal').modal('show');
         return;
     }
-    if (!selectedUsers.length) {
+    if (!selectUsers.length) {
       $('.warningMessage').text('Please, select users');
       $('#warningModal').modal('show');
       return;
@@ -46,19 +46,24 @@ $(document).ready(function (e) {
       return;
     }
 
+    if(action === 'delete') {
+      $('.warningdeleteMessage').text('Are you sure you want to delete this user(s) ?');
+      $("#deleteModal").modal("show");
+
+      $(".actiondeleteUser").addClass("applySelectAction");
+    }
+
     $.ajax({
         type: "POST",
         url: 'includes/select_action.php', 
         data: {
             'action_click_btn': true,
-            'user_id': selectedUsers,
+            'user_id': selectUsers,
             'operation': action,
         },
         success: function(response) {
-            if (response.status) {
+            if (response.status) {       
                 getUserData();
-            } else {
-                alert("Помилка: " + response.error.message);
             }
         }
     });
