@@ -7,7 +7,7 @@ if (isset($_POST['click_edit_btn'])) {
 
     $edit_user = mysqli_query($db, "SELECT * FROM users WHERE id ='$user_id'");
     $result_array = [];
-    if (mysqli_num_rows($edit_user) > 0) {
+    if (mysqli_num_rows($edit_user)) {
         foreach ($edit_user as $row) {
             array_push($result_array, $row);
         }
