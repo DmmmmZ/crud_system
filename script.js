@@ -23,73 +23,77 @@ $(document).ready(function (e) {
   $(document).on("click", ".applySelectAction", function (e) {
     e.preventDefault();
 
-    let selectUsers = $(".user_check:checked").map(function () {
+    let selectUsers = $(".user_check:checked")
+      .map(function () {
         return $(this).val();
-    }).get();
+      })
+      .get();
 
     let action = $(this).closest("div").find(".selectBox").val();
 
     if (!selectUsers.length && !action) {
-        $('.warningMessage').text('Please, select users and action');
-        $('#warningModal').modal('show');
-        return;
+      $(".warningMessage").text("Please, select users and action");
+      $("#warningModal").modal("show");
+      return;
     }
     if (!selectUsers.length) {
-        $('.warningMessage').text('Please, select users');
-        $('#warningModal').modal('show');
-        return;
+      $(".warningMessage").text("Please, select users");
+      $("#warningModal").modal("show");
+      return;
     }
     if (!action) {
-        $('.warningMessage').text('Please, select action');
-        $('#warningModal').modal('show');
-        return;
+      $(".warningMessage").text("Please, select action");
+      $("#warningModal").modal("show");
+      return;
     }
 
-    if (action === 'delete') {
-        $('.warningdeleteMessage').text('Are you sure you want to delete this user(s)?');
-        $("#deleteModal").modal("show");
+    if (action === "delete") {
+      $(".warningdeleteMessage").text(
+        "Are you sure you want to delete this user(s)?"
+      );
+      $("#deleteModal").modal("show");
 
-        $(".actiondeleteUser").data("users", selectUsers);
-        return;
+      $(".actiondeleteUser").data("users", selectUsers);
+      return;
     }
     function sendUsersAction(users, action) {
       $.ajax({
-          type: "POST",
-          url: 'includes/select_action.php',
-          data: {
-              'action_click_btn': true,
-              'user_id': users,
-              'operation': action,
-          },
-          success: function(response) {
-              if (response.status) {
-                  getUserData();
-              }
+        type: "POST",
+        url: "includes/select_action.php",
+        data: {
+          'action_click_btn': true,
+          'user_id': users,
+          'operation': action,
+        },
+        success: function (response) {
+          if (response.status) {
+            getUserData();
           }
+        },
       });
-  }
+    }
     sendUsersAction(selectUsers, action);
-});
-
-$(document).on("click", ".actiondeleteUser", function () {
+  });
+  // select delte users
+  $(document).on("click", ".actiondeleteUser", function () {
     let usersToDelete = $(this).data("users");
 
     $.ajax({
-        type: "POST",
-        url: 'includes/select_action.php',
-        data: {
-            'action_click_btn': true,
-            'user_id': usersToDelete,
-            'operation': 'delete',
-        },
-        success: function(response) {
-            if (response.status) {
-                $("#deleteModal").modal("hide");
-                getUserData();
-            }
+      type: "POST",
+      url: "includes/select_action.php",
+      data: {
+        'action_click_btn': true,
+        'user_id': usersToDelete,
+        'operation': "delete",
+      },
+      success: function (response) {
+        if (response.status) {
+          $("#deleteModal").modal("hide");
+          getUserData();
         }
+      },
     });
-});
+  });
 
   // add user
   $(document).on("click", ".add_user_data", function (e) {
@@ -247,7 +251,9 @@ function getUserData() {
       $(".user_check").on("change", function () {
         if (!$(this).prop("checked")) {
           $(".check_all").prop("checked", false);
-        } else if ($(".user_check:checked").length === $(".user_check").length) {
+        } else if (
+          $(".user_check:checked").length === $(".user_check").length
+        ) {
           $(".check_all").prop("checked", true);
         }
       });
