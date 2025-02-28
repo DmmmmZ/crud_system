@@ -34,6 +34,11 @@ if (isset($_POST["add_user_btn"])) {
 header('Content-Type: application/json');
 echo json_encode([
     'success' => $success,
+    'user_id' => $user_id = mysqli_insert_id($db), 
+    'firstname' => $firstname,
+    'lastname' => $lastname,
+    'status' => $status,
+    'role' => $role,
     'errors' => [
         'firstname' => $error_firstname,
         'lastname' => $error_lastname,

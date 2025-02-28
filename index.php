@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js "></script>
 </head>
 <style>
     .status-dot.active {
@@ -60,7 +59,32 @@
                                         <th scope="col">Option</th>
                                     </tr>
                                 </thead>
-                                <tbody class="user_data"></tbody>
+                                <tbody class="user_tabme">
+                                    <?php
+                                    require 'includes/db.php';
+                                    
+                                    $fetch = mysqli_query($db,"SELECT * FROM users");
+                                    $users = mysqli_fetch_all($fetch, MYSQLI_ASSOC);
+
+                                    foreach ($users as $user) { ?>
+                                        <tr>
+                                            <td class="user_id" style="display:none"><?= $user["id"] ?></td>
+                                            <td>
+                                                <input type="checkbox" class="user_check" value="<?= $user["id"] ?>">
+                                            </td>
+                                            <td><?= $user["firstname"] . " " . $user["lastname"] ?></td>
+                                            <td><span class="status-dot <?= $user["status"] ?>">●</span></td>
+                                            <td><?= $user["role"] ?></td>
+                                            <td>
+                                                <a href="#" class="btn btn-warning btn-sm editUser"><i
+                                                        class="bi bi-pencil"></i></a>
+                                                <a href="#" class="btn btn-danger btn-sm deleteUser"><i
+                                                        class="bi bi-trash"></i></a>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+
+                                </tbody>
                             </table>
                         </div>
                         <div class="container my-4">
@@ -190,13 +214,13 @@
         </div>
     </div>
 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="script.js"></script>
 </body>
 

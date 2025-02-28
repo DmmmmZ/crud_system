@@ -1,5 +1,4 @@
 $(document).ready(function (e) {
-  getUserData();
 
   // open add or edit modal window
   $(document).on("click", ".addUser", function () {
@@ -64,11 +63,26 @@ $(document).ready(function (e) {
           'user_id': selectUsers,
           'operation': action,
       },
-      success: function(response) {
-          if (response.status) {
-              getUserData();
-          }
-      }
+      success: function (response) {
+        if (response.status) {
+          selectUsers.forEach(function (userId) {
+            $("tr").each(function () {
+              if ($(this).find(".user_id").text() == userId) {
+                let statusDot = $(this).find(".status-dot");
+                if (action === "set_active") {
+                  statusDot.removeClass("inactive").addClass("active");
+                } else {
+                  statusDot.removeClass("active").addClass("inactive");
+                }
+              }
+            });
+          });
+        }
+        $(".user_check:checked").prop("checked", false);
+        if (!$(this).prop("checked")) {
+          $(".check_all").prop("checked", false);
+        }
+      },
     });
 
   });
@@ -88,7 +102,13 @@ $(document).ready(function (e) {
       success: function (response) {
         if (response.status) {
           $("#deleteModal").modal("hide");
-          getUserData();
+          usersToDelete.forEach(function (userId) {
+            $("tr").each(function () {
+              if ($(this).find(".user_id").text() == userId) {
+                $(this).remove();
+              }
+            });
+          });
         }
       },
     });
@@ -116,7 +136,23 @@ $(document).ready(function (e) {
       success: function (response) {
         if (response.success) {
           $("#userModal").modal("hide");
-          getUserData();
+          let newRow = `
+          <tr>
+              <td class="user_id" style="display:none">${response.user_id}</td>
+              <td>
+                  <input type="checkbox" class="user_check" value="${response.user_id}">
+              </td>
+              <td>${response.firstname} ${response.lastname}</td>
+              <td><span class="status-dot ${response.status}">●</span></td>
+              <td>${response.role}</td>
+              <td>
+                  <a href="#" class="btn btn-warning btn-sm editUser"><i class="bi bi-pencil"></i></a>
+                  <a href="#" class="btn btn-danger btn-sm deleteUser"><i class="bi bi-trash"></i></a>
+              </td>
+          </tr>
+      `;
+
+          $(".table tbody").append(newRow);
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
@@ -183,8 +219,24 @@ $(document).ready(function (e) {
       success: function (response) {
         if (response.success) {
           $("#userModal").modal("hide");
-          $(".user_data").html("");
-          getUserData();
+          let row = $("tr").filter(function () {
+            return $(this).find(".user_id").text() == user_id;
+          });
+          row.replaceWith(`
+            <tr>
+                <td class="user_id" style="display:none">${response.user_id}</td>
+                <td>
+                    <input type="checkbox" class="user_check" value="${response.user_id}">
+                </td>
+                <td>${response.firstname} ${response.lastname}</td>
+                <td><span class="status-dot ${response.status}">●</span></td>
+                <td>${response.role}</td>
+                <td>
+                    <a href="#" class="btn btn-warning btn-sm editUser"><i class="bi bi-pencil"></i></a>
+                    <a href="#" class="btn btn-danger btn-sm deleteUser"><i class="bi bi-trash"></i></a>
+                </td>
+            </tr>
+          `);
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
@@ -213,58 +265,46 @@ $(document).ready(function (e) {
           'delete_id': delete_id,
         },
         success: function (response) {
+          let result = JSON.parse(response);
+
+          if (result.status) {
+            $("tr").each(function () {
+              let row_id = $(this).find(".user_id").text();
+              if (row_id == delete_id) {
+                $(this).remove();
+              }
+            });
+          }
           $("#deleteUser").modal("hide");
-          $(".user_data").html("");
-          getUserData();
         },
       });
     });
   });
 });
 
-function getUserData() {
-  $.ajax({
-    type: "GET",
-    url: "includes/fetch.php",
-    success: function (response) {
-      $(".user_data").html("");
-      $.each(response.users, function (key, value) {
-        $(".user_data").append(`
-          <tr>
-              <td class="user_id" style="display:none">${value["id"]}</td>
-              <td>
-                  <input type="checkbox" class="user_check" value="${value["id"]}">
-              </td>
-              <td>${value["firstname"]} ${value["lastname"]}</td>
-              <td><span class="status-dot ${value["status"]}">●</span></td>
-              <td>${value["role"]}</td>
-              <td>
-                  <a href="#" class="btn btn-warning btn-sm editUser"><i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn btn-danger btn-sm deleteUser"><i class="bi bi-trash"></i></a>
-              </td>
-          </tr>
-        `);
-      });
-
-      // updating checkbox status "Select All"
-      $(".user_check").on("change", function () {
-        if (!$(this).prop("checked")) {
-          $(".check_all").prop("checked", false);
-        } else if (
-          $(".user_check:checked").length === $(".user_check").length
-        ) {
-          $(".check_all").prop("checked", true);
-        }
-      });
-      if ($(".user_check:checked").length === $(".user_check").length) {
-        $(".check_all").prop("checked", true);
-      } else {
-        $(".check_all").prop("checked", false);
-      }
-    },
-  });
-}
 // all checkbox
 function checkAll(myCheckBox) {
   $(".user_check").prop("checked", myCheckBox.checked);
 }
+$(".user_check").on("change", function () {
+  if (!$(this).prop("checked")) {
+    $(".check_all").prop("checked", false);
+  } else if ($(".user_check:checked").length === $(".user_check").length) {
+    $(".check_all").prop("checked", true);
+  }
+});
+if ($(".user_check:checked").length === $(".user_check").length) {
+  $(".check_all").prop("checked", true);
+} else {
+  $(".check_all").prop("checked", false);
+}
+
+
+// fix Blocked aria-hidden
+document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener('hide.bs.modal', function (event) {
+      if (document.activeElement) {
+          document.activeElement.blur();
+      }
+  });
+});

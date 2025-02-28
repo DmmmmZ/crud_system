@@ -1,7 +1,8 @@
 <?php 
 require "db.php";
 
-$error_firstname = $error_lastname = $error_role = "";
+$error_firstname = "";
+$error_lastname = "";
 $success = false;
 
 
@@ -29,6 +30,10 @@ if (isset($_POST["update_user_btn"])) {
 header('Content-Type: application/json');
 echo json_encode([
     'success' => $success,
+    'user_id' => $user_id,
+    'firstname' => $firstname,
+    'lastname' => $lastname,
+    'status' => $status,
     'errors' => [
         'firstname' => $error_firstname,
         'lastname' => $error_lastname,
