@@ -10,7 +10,7 @@ $(document).ready(function (e) {
 
     $(".firstname").val("");
     $(".lastname").val("");
-    $(".status").val("");
+    $(".status").prop("checked", false);
     $(".role").val("");
 
     $(".error").text("");
@@ -84,7 +84,7 @@ $(document).ready(function (e) {
     });
 
   });
-  // select delte users
+  // select delete users
   $(document).on("click", ".actionDeleteUser", function (e) {
     e.preventDefault();
     let usersToDelete = $(this).data("users");
@@ -176,7 +176,7 @@ $(document).ready(function (e) {
           $(".user_id").val(value["id"]);
           $(".firstname").val(value["firstname"]);
           $(".lastname").val(value["lastname"]);
-          $(".status").prop(value["status"]);
+          $(".status").prop("checked", value["status"] === 'active');
           $(".role").val(value["role"]);
 
           $(".error").text("");
