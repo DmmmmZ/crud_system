@@ -76,6 +76,7 @@ $(document).ready(function (e) {
             });
           });
         }
+        $(".user_check").prop("checked", false);
         $(".user_check:checked").prop("checked", false);
         if (!$(this).prop("checked")) {
           $(".check_all").prop("checked", false);
