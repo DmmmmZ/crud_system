@@ -249,33 +249,32 @@ $(document).ready(function (e) {
 
     $(".delete_id").val(user_id);
     $("#deleteUser").modal("show");
+  });
+  $(document).on("click", ".executeUser", function (e) {
+    e.preventDefault();
 
-    $(".deleteUser").click(function (e) {
-      e.preventDefault();
+    let delete_id = $(".delete_id").val();
 
-      let delete_id = $(".delete_id").val();
+    $.ajax({
+      type: "POST",
+      url: "includes/delete_user.php",
+      data: {
+        click_delete_btn: true,
+        delete_id: delete_id,
+      },
+      success: function (response) {
+        let result = JSON.parse(response);
 
-      $.ajax({
-        type: "POST",
-        url: "includes/delete_user.php",
-        data: {
-          'click_delete_btn': true,
-          'delete_id': delete_id,
-        },
-        success: function (response) {
-          let result = JSON.parse(response);
-
-          if (result.status) {
-            $("tr").each(function () {
-              let row_id = $(this).find(".user_id").text();
-              if (row_id == delete_id) {
-                $(this).remove();
-              }
-            });
-          }
-          $("#deleteUser").modal("hide");
-        },
-      });
+        if (result.status) {
+          $("tr").each(function () {
+            let row_id = $(this).find(".user_id").text();
+            if (row_id == delete_id) {
+              $(this).remove();
+            }
+          });
+        }
+        $("#deleteUser").modal("hide");
+      },
     });
   });
 });

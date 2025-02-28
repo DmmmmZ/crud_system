@@ -171,7 +171,7 @@
                     <input type="hidden" class="form-control delete_id" name="id">
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger deleteUser">Delete</button>
+                        <button type="submit" class="btn btn-danger executeUser">Delete</button>
                     </div>
                     </form>
                 </div>
