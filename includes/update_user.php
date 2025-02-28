@@ -34,6 +34,7 @@ echo json_encode([
     'firstname' => $firstname,
     'lastname' => $lastname,
     'status' => $status,
+    'role' => $role,
     'errors' => [
         'firstname' => $error_firstname,
         'lastname' => $error_lastname,

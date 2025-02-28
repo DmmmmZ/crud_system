@@ -59,7 +59,7 @@
                                         <th scope="col">Option</th>
                                     </tr>
                                 </thead>
-                                <tbody class="user_tabme">
+                                <tbody class="user_table">
                                     <?php
                                     require 'includes/db.php';
                                     

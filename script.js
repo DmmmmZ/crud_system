@@ -150,7 +150,7 @@ $(document).ready(function (e) {
           </tr>
       `;
 
-          $(".table tbody").append(newUser);
+          $(".user_table").append(newUser);
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
