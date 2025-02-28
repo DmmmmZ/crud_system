@@ -22,11 +22,9 @@ $(document).ready(function (e) {
   $(document).on("click", ".applySelectAction", function (e) {
     e.preventDefault();
 
-    let selectUsers = $(".user_check:checked")
-      .map(function () {
+    let selectUsers = $(".user_check:checked").map(function () {
         return $(this).val();
-      })
-      .get();
+      }).get();
 
     let action = $(this).closest("div").find(".selectBox").val();
 
@@ -136,7 +134,7 @@ $(document).ready(function (e) {
       success: function (response) {
         if (response.success) {
           $("#userModal").modal("hide");
-          let newRow = `
+          let newUser = `
           <tr>
               <td class="user_id" style="display:none">${response.user_id}</td>
               <td>
@@ -152,7 +150,7 @@ $(document).ready(function (e) {
           </tr>
       `;
 
-          $(".table tbody").append(newRow);
+          $(".table tbody").append(newUser);
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
@@ -219,10 +217,10 @@ $(document).ready(function (e) {
       success: function (response) {
         if (response.success) {
           $("#userModal").modal("hide");
-          let row = $("tr").filter(function () {
+          let edit = $("tr").filter(function () {
             return $(this).find(".user_id").text() == user_id;
           });
-          row.replaceWith(`
+          edit.replaceWith(`
             <tr>
                 <td class="user_id" style="display:none">${response.user_id}</td>
                 <td>

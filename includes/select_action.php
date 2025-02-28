@@ -17,7 +17,7 @@ if (isset($_POST['action_click_btn'])) {
         $action = "UPDATE users SET status='inactive' WHERE id IN ($idList)";
     }
 
-    if ($db->query($action) === true) {
+    if (mysqli_query($db,$action)) {
         echo json_encode(["status" => true, "error" => null]);
     }
 }
