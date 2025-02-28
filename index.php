@@ -62,8 +62,8 @@
                                 <tbody class="user_table">
                                     <?php
                                     require 'includes/db.php';
-                                    
-                                    $fetch = mysqli_query($db,"SELECT * FROM users");
+
+                                    $fetch = mysqli_query($db, "SELECT * FROM users");
                                     $users = mysqli_fetch_all($fetch, MYSQLI_ASSOC);
 
                                     foreach ($users as $user) { ?>
@@ -135,9 +135,11 @@
                                 placeholder="Enter Last Name" required>
                             <span class="error error_lastname text-danger"></span>
                         </div>
-                        <div class="form-check form-switch">
+                        <div class="form-group mb-3">
                             <label for="">Status</label>
-                            <input class="form-check-input status" type="checkbox" id="clearInput">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input status" type="checkbox" id="clearInput">
+                            </div>
                         </div>
                         <div class="form-group mb-3">
                             <label for="exampleRole">Role</label>
