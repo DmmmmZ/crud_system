@@ -1,5 +1,4 @@
 $(document).ready(function (e) {
-
   // open add or edit modal window
   $(document).on("click", ".addUser", function () {
     $("#userModalLabel").text("Add User Data");
@@ -22,9 +21,11 @@ $(document).ready(function (e) {
   $(document).on("click", ".applySelectAction", function (e) {
     e.preventDefault();
 
-    let selectUsers = $(".user_check:checked").map(function () {
+    let selectUsers = $(".user_check:checked")
+      .map(function () {
         return $(this).val();
-      }).get();
+      })
+      .get();
 
     let action = $(this).closest("div").find(".selectBox").val();
 
@@ -55,11 +56,11 @@ $(document).ready(function (e) {
 
     $.ajax({
       type: "POST",
-      url: 'includes/select_action.php',
+      url: "includes/select_action.php",
       data: {
-          'action_click_btn': true,
-          'user_id': selectUsers,
-          'operation': action,
+        action_click_btn: true,
+        user_id: selectUsers,
+        operation: action,
       },
       success: function (response) {
         if (response.status) {
@@ -76,14 +77,12 @@ $(document).ready(function (e) {
             });
           });
         }
-        $(".user_check").prop("checked", false);
         $(".user_check:checked").prop("checked", false);
         if (!$(this).prop("checked")) {
           $(".check_all").prop("checked", false);
         }
       },
     });
-
   });
   // select delete users
   $(document).on("click", ".actionDeleteUser", function (e) {
@@ -94,9 +93,9 @@ $(document).ready(function (e) {
       type: "POST",
       url: "includes/select_action.php",
       data: {
-        'action_click_btn': true,
-        'user_id': usersToDelete,
-        'operation': "delete",
+        action_click_btn: true,
+        user_id: usersToDelete,
+        operation: "delete",
       },
       success: function (response) {
         if (response.status) {
@@ -126,11 +125,11 @@ $(document).ready(function (e) {
       type: "POST",
       url: "includes/add_user.php",
       data: {
-        'add_user_btn': true,
-        'firstname': firstname,
-        'lastname': lastname,
-        'status': status,
-        'role': role,
+        add_user_btn: true,
+        firstname: firstname,
+        lastname: lastname,
+        status: status,
+        role: role,
       },
       success: function (response) {
         if (response.success) {
@@ -141,7 +140,7 @@ $(document).ready(function (e) {
               <td>
                   <input type="checkbox" class="user_check" value="${response.user_id}">
               </td>
-              <td>${response.firstname} ${response.lastname}</td>
+              <td class="name">${response.firstname} ${response.lastname}</td>
               <td><span class="status-dot ${response.status}">●</span></td>
               <td>${response.role}</td>
               <td>
@@ -149,9 +148,13 @@ $(document).ready(function (e) {
                   <a href="#" class="btn btn-danger btn-sm deleteUser"><i class="bi bi-trash"></i></a>
               </td>
           </tr>
-      `;
-
+          `;
           $(".user_table").append(newUser);
+
+          if ($(".check_all").prop("checked")) {
+            $(".user_table").find(".user_check").prop("checked", true);
+          }
+          updateCheckAll();
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
@@ -169,15 +172,15 @@ $(document).ready(function (e) {
       type: "POST",
       url: "includes/edit_user.php",
       data: {
-        'click_edit_btn': true,
-        'user_id': user_id,
+        click_edit_btn: true,
+        user_id: user_id,
       },
       success: function (response) {
         $.each(response, function (key, value) {
           $(".user_id").val(value["id"]);
           $(".firstname").val(value["firstname"]);
           $(".lastname").val(value["lastname"]);
-          $(".status").prop("checked", value["status"] === 'active');
+          $(".status").prop("checked", value["status"] === "active");
           $(".role").val(value["role"]);
 
           $(".error").text("");
@@ -208,12 +211,12 @@ $(document).ready(function (e) {
       type: "POST",
       url: "includes/update_user.php",
       data: {
-        'update_user_btn': true,
-        'user_id': user_id,
-        'firstname': firstname,
-        'lastname': lastname,
-        'status': status,
-        'role': role,
+        update_user_btn: true,
+        user_id: user_id,
+        firstname: firstname,
+        lastname: lastname,
+        status: status,
+        role: role,
       },
       success: function (response) {
         if (response.success) {
@@ -221,13 +224,15 @@ $(document).ready(function (e) {
           let edit = $("tr").filter(function () {
             return $(this).find(".user_id").text() == user_id;
           });
-          edit.replaceWith(`
+          let isChecked = edit.find(".user_check").prop("checked");
+
+          let userUpdate = `
             <tr>
                 <td class="user_id" style="display:none">${response.user_id}</td>
                 <td>
-                    <input type="checkbox" class="user_check" value="${response.user_id}">
+                    <input type="checkbox" class="user_check" value="${response.user_id}" ${isChecked ? "checked" : ""}>
                 </td>
-                <td>${response.firstname} ${response.lastname}</td>
+                <td class="name">${response.firstname} ${response.lastname}</td>
                 <td><span class="status-dot ${response.status}">●</span></td>
                 <td>${response.role}</td>
                 <td>
@@ -235,7 +240,10 @@ $(document).ready(function (e) {
                     <a href="#" class="btn btn-danger btn-sm deleteUser"><i class="bi bi-trash"></i></a>
                 </td>
             </tr>
-          `);
+          `;
+
+          edit.replaceWith(userUpdate);
+          updateCheckAll();
         } else {
           $(".error_firstname").text(response.errors.firstname);
           $(".error_lastname").text(response.errors.lastname);
@@ -247,8 +255,10 @@ $(document).ready(function (e) {
   // delete user
   $(document).on("click", ".deleteUser", function () {
     let user_id = $(this).closest("tr").find(".user_id").text();
+    let name = $(this).closest("tr").find(".name").text();
 
     $(".delete_id").val(user_id);
+    $(".deleteMessage").text(`Are you sure to delete user's ${name} ?`);
     $("#deleteUser").modal("show");
   });
   $(document).on("click", ".executeUser", function (e) {
@@ -284,25 +294,28 @@ $(document).ready(function (e) {
 function checkAll(myCheckBox) {
   $(".user_check").prop("checked", myCheckBox.checked);
 }
-$(".user_check").on("change", function () {
-  if (!$(this).prop("checked")) {
-    $(".check_all").prop("checked", false);
-  } else if ($(".user_check:checked").length === $(".user_check").length) {
-    $(".check_all").prop("checked", true);
-  }
-});
-if ($(".user_check:checked").length === $(".user_check").length) {
-  $(".check_all").prop("checked", true);
-} else {
-  $(".check_all").prop("checked", false);
+function updateCheckAll() {
+  $(".check_all").prop(
+    "checked",
+    $(".user_check:checked").length === $(".user_check").length
+  );
 }
+$(document).on("change", ".user_check", function () {
+  updateCheckAll();
+});
 
+$(".check_all").on("change", function () {
+  checkAll(this);
+  updateCheckAll();
+});
+
+updateCheckAll();
 
 // fix Blocked aria-hidden
 document.addEventListener("DOMContentLoaded", function () {
-  document.addEventListener('hide.bs.modal', function (event) {
-      if (document.activeElement) {
-          document.activeElement.blur();
-      }
+  document.addEventListener("hide.bs.modal", function (event) {
+    if (document.activeElement) {
+      document.activeElement.blur();
+    }
   });
 });

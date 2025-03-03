@@ -1,15 +1,13 @@
 <!doctype html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CRUD System Users</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+
 <style>
     .status-dot.active {
         color: green;
@@ -72,7 +70,7 @@
                                             <td>
                                                 <input type="checkbox" class="user_check" value="<?= $user["id"] ?>">
                                             </td>
-                                            <td><?= $user["firstname"] . " " . $user["lastname"] ?></td>
+                                            <td class="name"><?= $user["firstname"] . " " . $user["lastname"] ?></td>
                                             <td><span class="status-dot <?= $user["status"] ?>">●</span></td>
                                             <td><?= $user["role"] ?></td>
                                             <td>
@@ -144,16 +142,16 @@
                         <div class="form-group mb-3">
                             <label for="exampleRole">Role</label>
                             <select class="form-select role" id="clearInput">
-                                <option>admin</option>
-                                <option>user</option>
+                                <option value="admin">admin</option>
+                                <option value="user">user</option>
                             </select>
                             <span class="error error_role text-danger"></span>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" id="clear" class="btn btn-success save_user_data">Save Data</button>
-                        </div>
                     </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" id="clear" class="btn btn-success save_user_data">Save Data</button>
                 </div>
             </div>
         </div>
@@ -167,13 +165,12 @@
                     <h1 class="modal-title fs-5" id="deleteUserLabel">Delete User Data</h1>
                 </div>
                 <div class="modal-body">
-                    <h4>Are you sure you want to delete this user ?</h4>
+                    <h4 class="deleteMessage"></h4>
                     <input type="hidden" class="form-control delete_id" name="id">
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-danger executeUser">Delete</button>
-                    </div>
-                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-danger executeUser">Delete</button>
                 </div>
             </div>
         </div>
@@ -216,8 +213,6 @@
         </div>
     </div>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
