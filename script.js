@@ -21,11 +21,9 @@ $(document).ready(function (e) {
   $(document).on("click", ".applySelectAction", function (e) {
     e.preventDefault();
 
-    let selectUsers = $(".user_check:checked")
-      .map(function () {
+    let selectUsers = $(".user_check:checked").map(function () {
         return $(this).val();
-      })
-      .get();
+      }).get();
 
     let action = $(this).closest("div").find(".selectBox").val();
 
